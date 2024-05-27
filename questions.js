@@ -1,34 +1,36 @@
 export default [
   {
-    question: "Quanto é 1 + 2?",
+    question: "Por que a educação no trânsito é importante?",
     answers: [
-      { option: "3", correct: true },
-      { option: "2", correct: false },
-      { option: "4", correct: false },
+      { option: "Ensina os motoristas a ignorarem as regras de trânsito.", correct: false },
+      { option: "Porque ensina as pessoas a dirigirem de maneira segura", correct: true },
+      { option: "é útil apenas para novos motoristas e não para os experientes.", correct: false },
     ],
   },
   {
-    question: "Quanto é 5 x 2?",
+    question: "Qual é a importância da sinalização correta no trânsito?",
     answers: [
-      { option: "9", correct: false },
-      { option: "10", correct: true },
-      { option: "11", correct: false },
+      { option: "ajuda a decorar as ruas com cores vibrantes.", correct: false },
+      { option: "orienta e regula o fluxo de veículos e pedestres, aumentando a segurança.", correct: true },
+      { option: "confunde os motoristas para reduzir a velocidade.", correct: false },
     ],
   },
   {
-    question: "Quanto é 10 x 8?",
+    question: "Qual é a diferença entre multa e infração de trânsito",
     answers: [
-      { option: "800", correct: false },
-      { option: "90", correct: false },
-      { option: "80", correct: true },
+      { option: "infração de trânsito é o valor em dinheiro que se paga por violar as regras de trânsito.", correct: false },
+      { option: "multa é o ato de desrespeitar as regras de trânsito, como exceder a velocidade.", correct: false },
+      { option: "infração de trânsito é o ato de desrespeitar as regras de trânsito, e a multa é a penalidade financeira aplicada como consequência.", correct: true },
     ],
   },
   {
-    question: "Quanto é 7 x 7?",
+    question: "Por que é importante usar o cinto de segurança?",
     answers: [
-      { option: "70", correct: false },
-      { option: "56", correct: false },
-      { option: "49", correct: true },
+      { option: "o cinto de segurança serve apenas para evitar multas de trânsito.", correct: false },
+      { option: "o cinto de segurança só é necessário quando se está dirigindo em alta velocidade", correct: false },
+      { option: "protege os ocupantes em caso de acidente, reduzindo ferimentos graves ou fatais ao mantê-los no lugar", correct: true },
     ],
   },
+
+
 ];
