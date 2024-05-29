@@ -1,65 +1,119 @@
-const question = document.querySelector(".question");
-const answers = document.querySelector(".answers");
-const spnQtd = document.querySelector(".spnQtd");
-const textFinish = document.querySelector(".finish span");
-const content = document.querySelector(".content");
-const contentFinish = document.querySelector(".finish");
-const btnRestart = document.querySelector(".finish button");
+const questions = [
+    {
+        question: 'Por que a educação no trânsito é importante?',
+        answers: [
+            { text: 'Porque ensina as pessoas a dirigirem de maneira segura.', correct: true },
+            { text: 'É útil apenas para novos motoristas e não para os experientes.', correct: false },
+            { text: 'A educação no trânsito é irelevante porque todos os motoristas são naturalmente peritos em dirigir.', correct: false },
+            { text: 'Ensina os motoristas a ignorarem as regras de trânsito.', correct: false }
+        ]
+    },
+    {
+        question: 'Qual é a importância da sinalização correta no trânsito?',
+        answers: [
+            { text: 'Orienta e regula o fluxo de veículos e pedestres, aumentando a segurança.', correct: true },
+            { text: 'Ajuda a decorar as ruas com cores vibrantes.', correct: false },
+            { text: 'Confunde os motoristas para reduzir a velocidade.', correct: false },
+            { text: 'A sinalização de trânsito é irelevante, pois os motoristas sabem agir no trânsito.”', correct: false }
+        ]
+    },
+    {
+        question: 'Qual é a diferença entre multa e infração de trânsito?',
+        answers: [
+            { text: 'Infração de trânsito é o valor em dinheiro que se paga por violar as regras de trânsito.', correct: false },
+            { text: 'Infração de trânsito é o ato de desrespeitar as regras de trânsito, e a multa é a penalidade financeira aplicada como consequência.', correct: true },
+            { text: 'Multa é o ato de desrespeitar as regras de trânsito, como exceder a velocidade.', correct: false },
+            { text: 'A infração é desreispeitar as leis de trânsito, a multa  é uma notificação do governo. ', correct: false }
+        ]
+    },
+    {
+        question: 'Por que é importante usar o cinto de segurança?',
+        answers: [
+            { text: 'O uso do cinto é obrigatório para crianças mas para adultos não.', correct: false },
+            { text: 'Protege os ocupantes em caso de acidente, reduzindo ferimentos graves ou fatais ao mantê-los no lugar.', correct: true },
+            { text: 'O cinto de segurança só é necessário quando se está dirigindo em alta velocidade.', correct: false },
+            { text: 'O cinto de segurança serve apenas para evitar multas de trânsito.', correct: false }
+        ]
+    },
+    {
+        question: 'Para que serve essa placa: ⚠ ?',
+        answers: [
+            { text: 'Indicar a presença de um radar de velocidade escondido.', correct: false },
+            { text: 'Alertar os motoristas sobre possíveis perigos ou mudanças nas condições da via.', correct: true },
+            { text: 'Indicar a localização de um posto de combustível.', correct: false },
+            { text: 'Mostrar a velocidade mínima permitida na via.', correct: false }
+        ]
+    }
+];
 
-import questions from "./questions.js";
+const questionElement = document.getElementById('question');
+const answerButtonsElement = document.getElementById('answer-buttons');
+const nextButton = document.getElementById('next-btn');
 
-let currentIndex = 0;
-let questionsCorrect = 0;
+let currentQuestionIndex = 0;
+let score = 0;
 
-btnRestart.onclick = () => {
-  content.style.display = "flex";
-  contentFinish.style.display = "none";
-
-  currentIndex = 0;
-  questionsCorrect = 0;
-  loadQuestion();
-};
-
-function nextQuestion(e) {
-  if (e.target.getAttribute("data-correct") === "true") {
-    questionsCorrect++;
-  }
-
-  if (currentIndex < questions.length - 1) {
-    currentIndex++;
-    loadQuestion();
-  } else {
-    finish();
-  }
+function startGame() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.classList.add('hide');
+    showQuestion(questions[currentQuestionIndex]);
 }
 
-function finish() {
-  textFinish.innerHTML = `você acertou ${questionsCorrect} de ${questions.length}`;
-  content.style.display = "none";
-  contentFinish.style.display = "flex";
+function showQuestion(question) {
+    questionElement.innerText = question.question;
+    answerButtonsElement.innerHTML = '';
+    question.answers.forEach(answer => {
+        const button = document.createElement('button');
+        button.innerText = answer.text;
+        button.classList.add('btn');
+        if (answer.correct) {
+            button.dataset.correct = answer.correct;
+        }
+        button.addEventListener('click', selectAnswer);
+        answerButtonsElement.appendChild(button);
+    });
 }
 
-function loadQuestion() {
-  spnQtd.innerHTML = `${currentIndex + 1}/${questions.length}`;
-  const item = questions[currentIndex];
-  answers.innerHTML = "";
-  question.innerHTML = item.question;
-
-  item.answers.forEach((answer) => {
-    const div = document.createElement("div");
-
-    div.innerHTML = `
-    <button class="answer" data-correct="${answer.correct}">
-      ${answer.option}
-    </button>
-    `;
-
-    answers.appendChild(div);
-  });
-
-  document.querySelectorAll(".answer").forEach((item) => {
-    item.addEventListener("click", nextQuestion);
-  });
+function selectAnswer(e) {
+    const selectedButton = e.target;
+    const correct = selectedButton.dataset.correct === 'true';
+    if (correct) {
+        score++;
+    }
+    Array.from(answerButtonsElement.children).forEach(button => {
+        setStatusClass(button, button.dataset.correct === 'true');
+    });
+    if (questions.length > currentQuestionIndex + 1) {
+        nextButton.classList.remove('hide');
+    } else {
+        nextButton.innerText = `Pontuação Final: ${score} / ${questions.length}`;
+        nextButton.classList.remove('hide');
+        nextButton.removeEventListener('click', handleNextButton);
+        nextButton.addEventListener('click', startGame);
+    }
 }
 
-loadQuestion();
+function setStatusClass(element, correct) {
+    clearStatusClass(element);
+    if (correct) {
+        element.classList.add('correct');
+    } else {
+        element.classList.add('wrong');
+    }
+}
+
+function clearStatusClass(element) {
+    element.classList.remove('correct');
+    element.classList.remove('wrong');
+}
+
+function handleNextButton() {
+    currentQuestionIndex++;
+    showQuestion(questions[currentQuestionIndex]);
+    nextButton.classList.add('hide');
+}
+
+nextButton.addEventListener('click', handleNextButton);
+
+startGame();
