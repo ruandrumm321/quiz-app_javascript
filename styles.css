@@ -1,12 +1,39 @@
 body {
     font-family: 'Arial', sans-serif;
+
+    height: 100vh;
+    margin: 0;
+}
+
+.background-container {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: url("transito-joinville-scaled.webp");
+    background-position: center;
+    background-size: cover;
     height: 100vh;
-    margin: 0;
-    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    width: 100vw;
+    position: relative;
 }
+
+.background-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Ajuste a opacidade conforme necessário */
+    z-index: 1;
+}
+
+.background-container > * {
+    position: relative;
+    z-index: 2;
+}
+
+
 
 #quiz-container {
     width: 400px;
